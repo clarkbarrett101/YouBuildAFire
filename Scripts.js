@@ -23,7 +23,7 @@ function GetText(input) {
         //Q3
         case 6: return "Next he brought out his bunch of sulphur matches."; break;
         case 7: return "He began threshing his arms back and forth, beating the mittened hands against his sides. "; break;
-        case 8: return "He tried fumbling them into his mouth."; break;
+        case 8: return "He tried fumbling the matches into his mouth."; break;
         case 9: return "Suddenly he bared both hands, removing the mittens with his teeth."; break;
         //Q4
         case 10: return "He ran blindly, without intention, in fear such as he had never known in his life."; break;
@@ -31,12 +31,37 @@ function GetText(input) {
         case 12: return "He decided he must trick the dog and then strangle it"; break;
     }
 }
+function GetClip(input) {
+    switch (input) {
+        case 0: return "Prologue.mp3"; break;
+        case 1: return "Lunch Break.mp3"; break;
+        case 2: return "Keep Moving.mp3"; break;
+        case 3: return "Ice Trap.mp3"; break;
+        case 4: return "Building a Fire.mp3"; break;
+        case 5: return ""; break;
+        case 6: return "Matches.mp3"; break;
+        case 7: return "Hands.mp3"; break;
+        case 8: return "Mouth.mp3"; break;
+        case 9: return ""; break;
+        case 10: return "Moss.mp3"; break;
+        case 11: return "Snow.mp3"; break;
+        case 12: return ""; break;
+        case 13: return "Send Dog.mp3"; break;
+        case 14: return "Run.mp3"; break;
+        case 15: return "Attack Dog.mp3"; break;
+        case 16: return "Trick Dog.mp3"; break;
+        case 17: return "Epilogue.mp3"; break;
+    }
+}
+function SetClip(input) {
+    audio.pause();
+    audio.setAttribute("src", GetClip(input));
+    audio.play();
+}
 function Q0() {
     Activate(0);
-    audio.pause();
     wind.play();
-    audio.setAttribute("src", "Prologue.mp3")
-    audio.play();
+    SetClip(0);
     btns[0].innerText = GetText(0);
     btns[0].setAttribute("onclick", 'Q2(true)');
     btns[1].hidden = false;
@@ -45,13 +70,19 @@ function Q0() {
 }
 function Q1() {
     Activate(2);
+    SetClip(2)
     btns[0].innerText = GetText(2);
     btns[0].setAttribute("onclick", 'Q2(false)');
     btns[1].innerText = GetText(3);
     btns[1].setAttribute("onclick", 'Q4()');
 }
 function Q2(lunch) {
-    if (lunch) { Activate(1) };
+    if (lunch) {
+        Activate(1);
+        SetClip(1)
+    } else {
+        SetClip(3)
+    };
     Activate(3);
     btns[0].innerText = GetText(4);
     btns[0].setAttribute("onclick", 'Q3(false)');
@@ -61,6 +92,7 @@ function Q2(lunch) {
 function Q3(tree) {
     snow = tree;
     Activate(4)
+    SetClip(4)
     btns[0].innerText = GetText(6);
     btns[0].setAttribute("onclick", 'LoopBack(0, 6, false)');
     btns[1].innerText = GetText(7);
@@ -74,6 +106,7 @@ function Q3(tree) {
 }
 function Q4() {
     Activate(13);
+    SetClip(13);
     btns[0].innerText = GetText(10);
     btns[0].setAttribute("onclick", 'LoopBack(0, 14, true)');
     btns[1].innerText = GetText(11);
@@ -84,7 +117,13 @@ function Q4() {
 }
 function snowMoss() {
     Activate(9);
-    if (snow) { Activate(11) } else { Activate(10) }
+    if (snow) {
+        Activate(11);
+        SetClip(11);
+    } else {
+        Activate(10);
+        SetClip(10);
+    }
     Activate(12);
     Q5();
 }
@@ -100,14 +139,18 @@ let end = false;
 function LoopBack(btn, text, e) {
     btns[btn].hidden = true;
     Activate(text);
+    SetClip(text);
     if (end) {
+        setTimeout(function () { SetClip(17) }, 60000);
         Q5();
     }
     if (e) {
         end = true;
     }
 }
-
+function PsychButton() {
+    document.getElementById("psych").innerText = "Psych!";
+}
 
 function Activate(text) {
     document.getElementById(text).hidden = false;
