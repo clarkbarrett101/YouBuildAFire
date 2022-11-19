@@ -7,6 +7,8 @@ btns[3] = document.getElementById("b4")
 let snow = false;
 let audio = new Audio();
 audio = document.getElementById("audio");
+let wind = new Audio();
+wind = document.getElementById("wind");
 function GetText(input) {
     switch (input) {
         //Q0
@@ -32,6 +34,7 @@ function GetText(input) {
 function Q0() {
     Activate(0);
     audio.pause();
+    wind.play();
     audio.setAttribute("src", "Prologue.mp3")
     audio.play();
     btns[0].innerText = GetText(0);
