@@ -5,7 +5,8 @@ btns[2] = document.getElementById("b3");
 btns[3] = document.getElementById("b4")
 
 let snow = false;
-
+let audio = new Audio();
+audio = document.getElementById("audio");
 function GetText(input) {
     switch (input) {
         //Q0
@@ -30,7 +31,9 @@ function GetText(input) {
 }
 function Q0() {
     Activate(0);
-
+    audio.pause();
+    audio.setAttribute("src", "Prologue.mp3")
+    audio.play();
     btns[0].innerText = GetText(0);
     btns[0].setAttribute("onclick", 'Q2(true)');
     btns[1].hidden = false;
